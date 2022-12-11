@@ -1,4 +1,10 @@
 public class ChartController {
+
+    public Boolean refresh {get; set;}
+
+    public ChartController() {
+        refresh=false;
+    }
     
     // Return a list of data points for a chart
     public List<Data> getData() {
@@ -10,16 +16,20 @@ public class ChartController {
         return ChartController.getChartData();
     }
 
-    // The actual chart data; needs to be static to be
     public static List<Data> getChartData() {
         List<Data> data = new List<Data>();
 
-        List<Temperature__c> ts = [select timestamp__c, temperature__c from temperature__c limit 10];
+        List<Temperature__c> ts = [SELECT timestamp__c, temperature__c 
+                                    FROM temperature__c 
+                                    ORDER BY timestamp__c DESC 
+                                    LIMIT 10];
 
-        for (Temperature__c t : ts){
+        for (Integer i=ts.size()-1;i>=0;){
 
-            data.add(new Data(t.timestamp__c, t.temperature__c));
+            data.add(new Data(ts[i].timestamp__c, ts[i].temperature__c));
+            i--;
         }
+
         return data;
     }
     
@@ -28,8 +38,9 @@ public class ChartController {
         public String timestamp { get; set; }
         public Decimal temperature { get; set; }
 
-        public Data(Time timestamp, Decimal temperature) {
-            this.timestamp = String.valueOf(timestamp.hour()) +':'+ String.valueOf(timestamp.minute());
+        public Data(DateTime timestamp, Decimal temperature) {
+            this.timestamp = timestamp.format('HH:mm:ss');
+            //String.valueOf(timestamp.hour()) +':'+ String.valueOf(timestamp.minute()) +':'+ String.valueOf(timestamp.second());
             this.temperature = temperature;
         }
     }

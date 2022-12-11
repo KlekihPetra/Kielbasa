@@ -1,19 +1,25 @@
 from simple_salesforce import Salesforce
-# Import datetime class from datetime module
 from datetime import datetime
+import time
+import math
   
   
-# returns current date and time
-now = datetime.now()
-timestamp = now.strftime("%H:%M:%S")
-print("Timestamp = ", timestamp)
+
 
 username='inzynier.matuszewski@playful-badger-u49kep.com'
-password='majerenek8'
-token='S76hROSKooFHOlfkdcEKd8dr'
+password='yukka314'
+token='5HIIMalRkhRYilPxmKbn3UCb'
 sf = Salesforce(username=username, password=password, security_token=token)
 
-sf.Temperature__c.create({'Temperature__c':666, 'Timestamp__c': timestamp})
+for i in range(0,100):
 
-print(sf)
+    # returns current date and time
+    now = datetime.now()
+    timestamp = now.strftime("%Y-%m-%dT%H:%M:%S")
+    print("Timestamp = ", timestamp)
+
+    sf.Temperature__c.create({'Temperature__c':math.sin(i), 'Timestamp__c': timestamp})
+    print(sf)
+    time.sleep(10)
+
 print('Finito !')
