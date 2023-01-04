@@ -12,7 +12,7 @@ public class ChartController {
         List<Temperature__c> ts = [SELECT timestamp__c, temperature__c 
                                     FROM temperature__c 
                                     ORDER BY timestamp__c DESC 
-                                    LIMIT 10];
+                                    LIMIT 150];
 
         for (Integer i=ts.size()-1;i>=0;){
 
